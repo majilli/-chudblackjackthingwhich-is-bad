@@ -6,10 +6,13 @@ while True:
     # Creates the variable hand which gets assigned a random integer between 1 and 11 
     # and is printed to the console so the player knows what card they have been dealt
     face_cards = ["Q", "K", "J"]
-    cards = [1 , 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    the_cards = cards + face_cards
+    cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    ace = ["A"]
+    the_cards = cards + face_cards + ace
     hand = random.choice(the_cards)
     print("Your hand is:", hand)
+    if hand in ace:
+        hand = 11
     if hand in face_cards:
             hand = 10
     # Blackjack loop which goes on until the player chooses to stand or busts by going over 21
@@ -17,11 +20,16 @@ while True:
         hit = input("Do you want to hit? (yes/no): ")
         if hit == "yes":
             new_card = random.choice(the_cards)
-            if new_card in face_cards:
-                new_card = 10
-            hand += new_card
-
             print("You drew:", new_card)
+
+            if new_card in face_cards:
+             new_card = 10
+
+            if new_card in ace:
+                if hand + 11 > 21:
+                    new_card = 1
+                else: new_card = 11
+            hand += new_card
             print("Your new hand is:", hand)
         elif hit == "no":
             print("You chose to stand.")
@@ -37,14 +45,21 @@ while True:
         dealer_hand = random.choice(the_cards)   
             # The dealer's hand is created and assigned a random integer between 1 and 11.
         print("Dealer's hand is:", dealer_hand)
+        if dealer_hand in ace:
+            dealer_hand = 11
         if dealer_hand in face_cards:
-                    dealer_hand = 10
+            dealer_hand = 10
         while dealer_hand < 17:                     # A loop is created so the dealer will keep drawing cards until they reach 17 or higher.
             new_card = random.choice(the_cards)
                 # The dealers new and old cards are added togeher so the player knows the dealers new hand.
             print("Dealer drew:", new_card)
             if new_card in face_cards:
              new_card = 10
+            if new_card in ace:
+                if dealer_hand + 11 > 17:
+                 new_card = 1
+                else: new_card = 11
+            
             dealer_hand = dealer_hand + new_card
             print("Dealer's new hand is:", dealer_hand)
     
@@ -61,16 +76,3 @@ while True:
     if choice != "yes":
         print("Goodbye...")
         break
-
-
-    
-
-
-
-
-
-
-
-
-
-
